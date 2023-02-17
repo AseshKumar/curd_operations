@@ -1,0 +1,59 @@
+<html>
+   <body>
+   {% load static %}
+   <table align="center"  border="2">
+       <tr bgcolor="orange"><th colspan="8">Views Details</th></tr>
+       <tr bgcolor="#8b0000">
+           <th>idno</th>
+           <th>name</th>
+           <th>age</th>
+           <th>contact</th>
+           <th>gender</th>
+           <th>designation</th>
+           <th>Upadte</th>
+           <th>Delete</th>
+       </tr>
+       {% for x in data %}
+           <tr>
+           <th>{{ x.idno }}</th>
+           <th>{{ x.name }}</th>
+           <th>{{ x.age }}</th>
+           <th>{{ x.contact_no }}</th>
+           <th>{{ x.gender }}</th>
+           <th>{{ x.deginations }}</th>
+           <th>
+               <form action="{% url 'update' %}">
+              <input type="hidden" name="u1" value="{{ x.idno }}">
+               <button type="submit">Update</button>
+                   </form>
+           </th>
+           <th>
+               <a href="{% url 'delete' %}?no={{ x.idno }}">
+                   <script src="{% static 'js/sample.js' %}"></script>
+                   <button type="submit" onclick="show()">
+                       <img src="{% static 'images/deleted.png' %}" width="50" height="50">
+                   </button>
+                   </a>
+           </th>
+           </tr>
+       {% endfor %}
+   <tr><th colspan="8">
+       {% if data.has_previous %}
+           <a href="{% url 'view' %}?page_no={{ data.previous_page_number }}">
+           Previous
+           </a>
+       {% endif %}
+   {% for x in data.paginator.page_range %}
+       <span style="padding: 10px">
+       <a href="{% url 'view' %}?page_no={{ x }}">{{ x }}</a>
+       </span>
+   {% endfor %}
+   {% if data.has_next %}
+       <a href="{% url 'view' %}?page_no={{ data.next_page_number }}">
+       Next
+       </a>
+   {% endif %}
+   </th></tr>
+   </table>
+   </body>
+ </html>
